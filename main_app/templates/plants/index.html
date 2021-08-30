@@ -2,39 +2,30 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/plant-index.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/pIndex.css' %}"/>
 {% endblock %}
 
 {% block content %}
-
+<div class="container-lg py-3">
 <section class="page-header">
-  <h1>Cat List</h1>
-  <img src="{% static 'images/cool-plant.svg' %}" alt="A cool plant" />
-  <img src="{% static 'images/happy-plant.svg' %}" alt="A happy plant" />
-  <img src="{% static 'images/teacup-plant.svg' %}" alt="A plant in a teacup" />
-  <img src="{% static 'images/plant-in-box.svg' %}" alt="A plant in a box" />
+  <h1>All Plants</h1>
 </section>
 
 <section class="card-container">
-  {% for plant in cats %}
+  {% for plant in plants %}
     <div class="card">
-      <a href="{% url 'cats_detail' plant.id %}">
-        <div class="card-content">
-          <div class="card-img-container">
-            <img 
-              src="{% static 'images/sk8r-boi-plant.svg' %}" 
-              alt="A skater boy plant"
-            >
-          </div>
-          <h2 class="card-title">{{ plant.name }}</h2>
-          {% if plant.age > 0 %}
-            <p>A {{ plant.age }} year old {{ plant.breed }}</p>
-          {% endif %}
-          <p><small>{{ plant.description }}</small></p>
-        </div>
+        <img src="{% static 'images/Leaves/Paper_Birch.png' %}" class="card-img-top" alt="plant">
+        <div class="card-body">
+        <h3 class="card-title">{{ plant.name }}</h3>
+        <p>Year: {{ plant.age }}</p>
+        <p>Origin: {{ plant.origin }}</p>
+        <p class="card-text">{{ plant.description }}</p>
+      </div>
+      <a href="{% url 'plants_detail' plant.id %}">Details
       </a>
     </div>
   {% endfor %}
+</div>
 </section>
 
 {% endblock %}

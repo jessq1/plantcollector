@@ -1,0 +1,21 @@
+
+#navbar{
+    background-color: #9ebb30;
+}
+
+.navbar-brand, .nav-link{
+    color: #f8fff3;
+}
+
+.navbar-brand:hover, .nav-link:hover{
+    color: #349201;
+}
+.navbar-toggler{
+    padding: 0;
+}
+.navbar-toggler-icon{
+    background-image: url('/static/images/Leaves/Tulip_Tree.png');
+    border: #bcd65c solid 1px;
+    border-radius: 20%;
+    padding: 10px;
+}
