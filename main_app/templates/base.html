@@ -9,33 +9,60 @@
   <link
     rel="shortcut icon"
     type="image/png"
-    href=""
+    href="{% static 'images/Nature/LEAVES-SKRIBBL-T.png' %}"
   >
   <title>Plant Collector</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
   {% block head %}
   {% endblock %}
 </head>
 <body>
   <header>
-    <div class="header-logo-container">
+    {% comment %} <div class="header-logo-container">
       <a href="/">
         <img 
-          src="" 
+          src="{% static 'images/Nature/LEAVES-SKRIBBL-T.png' %}" 
           alt="The Plant Collector Logo"
         >
       </a>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="/plants">All Plants</a></li>
-        <li><a href="/about">About</a></li>
+    </div> {% endcomment %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+        <img 
+          src="{% static 'images/Nature/LEAVES-SKRIBBL-T.png' %}" 
+          alt="The Plant Collector Logo"
+          width="60" 
+          class="d-inline-block align-text-top"
+        >
+      </a>
+      <a class="navbar-brand" href="/"> Plant Collector</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu" >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item  px-3">
+            <a class="nav-link" href="/plants"
+          >All Plants
+        </a>
+          </li>
+          <li class="nav-item  px-3">
+            <a class="nav-link" href="/about"
+          >About
+        </a>
+          </li>
+        {% comment %} <li><a href="/plants">All Plants</a></li> {% endcomment %}
+        {% comment %} <li><a href="/about">About</a></li> {% endcomment %}
       </ul>
+      </div>
     </nav>
   </header>
   <main>
     {% block content %}
     {% endblock %}
   </main>
-</body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
 </html>
