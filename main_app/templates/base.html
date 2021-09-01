@@ -35,16 +35,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navmenu">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item  px-3">
-            <a class="nav-link" href="/plants"
-          >All Plants
-        </a>
-          </li>
-          <li class="nav-item  px-3">
-            <a class="nav-link" href="/about"
-          >About
-        </a>
-          </li>
+          <li><a class='nav-link' href="{% url 'plants_index' %}">All Plants</a></li>
+          <li><a class='nav-link' href="{% url 'plants_create' %}">Add a Plant</a></li>
+          <li><a class='nav-link' href="{% url 'about' %}">About</a></li>
       </ul>
       </div>
     </nav>
