@@ -3,10 +3,19 @@
 
 {% block head %}
 <link 
+  href="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.css" 
+  rel="stylesheet" 
+/>
+<script 
+  src="https://cdn.jsdelivr.net/npm/mc-datepicker/dist/mc-calendar.min.js"
+>
+</script>
+<link 
   rel="stylesheet" 
   type="text/css" 
   href="{% static 'css/pDetail.css' %}"
 /> 
+<script defer src="{% static 'js/plant-detail.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -26,11 +35,47 @@
     <p>Origin: {{ plant.origin }}</p>
     <p>{{ plant.description }}</p>
     <div class="plant-actions">
-      <a href="{% url 'plants_update' plant.id %}" class="btn warn">Edit</a>
-      <a href="{% url 'plants_delete' plant.id %}" class="btn danger">Delete</a>
+      <a href="{% url 'plants_update' plant.id %}" class="btn btn-outline-secondary">Edit</a>
+      <a href="{% url 'plants_delete' plant.id %}" class="btn btn-outline-secondary">Delete</a>
     </div>
   </div>
+
+  <div class="water-pot-container">
+  <section class="water">
+    <div class="subsection-title">
+      <h2>Watering</h2>
+    </div>
+    <h3>Water the Plant!</h3>
+    <form
+      action="{% url 'add_water' plant.id %}"
+      method="post" 
+      class="subsection-content"
+    >
+      {% csrf_token %}
+      {{ water_form.as_p }}
+      <button type="submit" class="btn btn-outline-secondary">Water</button>
+    </form>
+    <h3>Past Actions</h3>
+    {% if plant.water_set.all.count %}
+    <table>
+      <thead>
+        <tr><th>Date</th><th>Time</th></tr>
+      </thead>
+      <tbody>
+        {% for water in plant.water_set.all %}
+          <tr>
+            <td>{{water.date}}</td>
+            <td>{{water.get_time_display}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="subsection-content">{{plant.name}} has never been watered 😟</p>
+    {% endif %}
+  </section>
 </div>
 </section>
+</div>
 
 {% endblock %}
