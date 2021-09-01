@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from datetime import date
 
 TIMES = (
   ('M', 'Morning'),
@@ -7,6 +8,16 @@ TIMES = (
 )
 
 # Create your models here.
+class Pot(models.Model):
+  material = models.CharField(max_length=50)
+  color = models.CharField(max_length=20)
+
+  def __str__(self):
+    return self.name
+
+  def get_absolute_url(self):
+    return reverse('pots_detail', kwargs={'pk': self.id})
+
 class Plant(models.Model):
   name = models.CharField(max_length=100)
   origin = models.CharField(max_length=100)
@@ -18,6 +29,9 @@ class Plant(models.Model):
   
   def get_absolute_url(self):
     return reverse('plants_detail', kwargs={'plant_id': self.id})
+
+  def watered_for_today(self):
+    return self.water_set.filter(date=date.today()).count() >= len(TIMES)
 
 class Water(models.Model):
   date = models.DateField()

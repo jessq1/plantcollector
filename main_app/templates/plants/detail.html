@@ -51,6 +51,11 @@
       method="post" 
       class="subsection-content"
     >
+    {% if plant.watered_for_today %}
+        <p class="watered">{{plant.name}} has been watered for today!</p>
+      {% else %}
+        <p class="unwatered">{{plant.name}} might need more water!</p>
+      {% endif %}
       {% csrf_token %}
       {{ water_form.as_p }}
       <button type="submit" class="btn btn-outline-secondary">Water</button>

@@ -1,0 +1,32 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/pot-index.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+  <h1>All Plant Pots</h1>
+</section>
+
+<section class="card-container">
+  {% for pot in pot_list %}
+  <div class="card" style="border-color: {{ pot.color }}">
+    <div class="card-bg" style="background-color: {{ pot.color }}"></div>
+    <a href="{% url 'pots_detail' pot.id %}">
+      <div class="card-content">
+        <h2>{{ pot.material }}</h2>
+        <p>A {{ pot.color }} pot</p>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</section>
+
+{% endblock %}

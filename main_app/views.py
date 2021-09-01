@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Plant
+from .models import Plant, Pot
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import WaterForm
+from django.views.generic import ListView, DetailView
+
 
 
 # Create your views here.
@@ -43,3 +45,21 @@ def add_water(request, plant_id):
     new_water.save()
 
   return redirect('plants_detail', plant_id=plant_id)
+
+class PotCreate(CreateView):
+  model = Pot
+  fields = '__all__'
+
+class PotList(ListView):
+  model = Pot
+
+class PotDetail(DetailView):
+  model = Pot
+
+class PotUpdate(UpdateView):
+  model = Pot
+  fields = ['name', 'color']
+
+class PotDelete(DeleteView):
+  model = Pot
+  success_url = '/pots/'

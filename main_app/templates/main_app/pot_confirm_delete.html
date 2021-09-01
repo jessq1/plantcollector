@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/forms.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>Delete Pot?</h1>
+  <img src="{% static 'images/Leaves/Paper_Birch.png' %}" class="img-wrapper" alt="plant">
+</div>
+<h2>Are you sure you want to delete {{ object.name }}?</h2>
+
+<form action="" method="POST" class="form">
+  {% csrf_token %}
+  <a 
+    href="{% url 'pots_detail' pot.id %}" 
+    class="btn secondary"
+  >
+    Cancel
+  </a>
+  <button type="submit" class="btn danger">Yes - Delete!</button>
+</form>
+
+{% endblock %}
