@@ -13,7 +13,7 @@
 
 <section class="card-container">
   {% for plant in plants %}
-    <div class="card">
+    <div class="card py-3">
         <img src="{% static 'images/Leaves/Paper_Birch.png' %}" class="card-img-top" alt="plant">
         <div class="card-body">
         <h3 class="card-title">{{ plant.name }}</h3>
@@ -21,7 +21,7 @@
         <p>Origin: {{ plant.origin }}</p>
         <p class="card-text">{{ plant.description }}</p>
       </div>
-      <a href="{% url 'plants_detail' plant.id %}">Details
+      <a class='btn btn-outline-secondary' href="{% url 'plants_detail' plant.id %}">Details
       </a>
     </div>
   {% endfor %}
