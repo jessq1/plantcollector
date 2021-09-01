@@ -19,18 +19,19 @@ def plants_index(request):
 
 def plants_detail(request, plant_id):
   plant = Plant.objects.get(id=plant_id)
+  pots_plant_doesnt_have = Pot.objects.exclude(id__in = plant.pots.all().values_list('id'))
   water_form = WaterForm()
   return render(request, 'plants/detail.html', { 
-    'plant': plant, 'water_form': water_form })
+    'plant': plant, 'water_form': water_form, 'pots': pots_plant_doesnt_have })
 
 class PlantCreate(CreateView):
   model = Plant
-  fields = '__all__'
+  fields = ['name', 'origin', 'description', 'age']
   success_url = '/plants/'
 
 class PlantUpdate(UpdateView):
   model = Plant
-  # Let's disallow the renaming of a cat by excluding the name field!
+  # Let's disallow the renaming of a plant by excluding the name field!
   fields = ['origin', 'description', 'age']
 
 class PlantDelete(DeleteView):
@@ -63,3 +64,8 @@ class PotUpdate(UpdateView):
 class PotDelete(DeleteView):
   model = Pot
   success_url = '/pots/'
+
+def assoc_pot(request, plant_id, pot_id):
+  # Note that you can pass a toy's id instead of the whole object
+  Plant.objects.get(id=plant_id).pots.add(pot_id)
+  return redirect('plants_detail', plant_id=plant_id)

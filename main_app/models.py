@@ -23,6 +23,7 @@ class Plant(models.Model):
   origin = models.CharField(max_length=100)
   description = models.TextField(max_length=250)
   age = models.IntegerField()
+  pots = models.ManyToManyField(Pot)
 
   def __str__(self):
     return self.name

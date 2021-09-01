@@ -15,4 +15,5 @@ urlpatterns = [
     path('pots/', views.PotList.as_view(), name='pots_index'),
     path('pots/<int:pk>/update/', views.PotUpdate.as_view(), name='pots_update'),
     path('pots/<int:pk>/delete/', views.PotDelete.as_view(), name='pots_delete'),
+    path('pots/<int:plant_id>/assoc_pot/<int:pot_id>/', views.assoc_pot, name='assoc_pot'),
 ]

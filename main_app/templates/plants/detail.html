@@ -79,6 +79,54 @@
       <p class="subsection-content">{{plant.name}} has never been watered 😟</p>
     {% endif %}
   </section>
+
+  <section class="pots">
+    <div class="subsection-title">
+      <h2>Pots</h2>
+    </div>
+    <h3>{{ plant.name }}'s Pots</h3>
+    <div class="subsection-content">
+      {% if plant.pots.count %}
+        {% for pot in plant.pots.all %}
+          <div class="pot-container">
+            <div 
+              class="color-block"
+              style="background-color: {{ pot.color }}"
+            ></div>
+            <a href="{% url 'pots_detail' pot.id %}">
+              <p>A {{ pot.color }} pot made in {{ pot.material }}</p>
+            </a>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-pots">{{plant.name}} doesn't have any pots 😞</p>
+      {% endif %}
+    </div>
+    <h3>Available Pots</h3>
+    <div class="subsection-content">
+      {% if pots.count %}
+        {% for pot in pots.all %}
+          <div class="pot-container">
+            <div 
+              class="color-block"
+              style="background-color: {{ pot.color }}"
+            ></div>
+            <a href="{% url 'pots_detail' pot.id %}">
+              <p>A {{ pot.color }} pot made in {{ pot.material }}</p>
+            </a>
+            <form action="{% url 'assoc_pot' plant.id pot.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn submit">Give pot</button>
+            </form>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="all-pots">
+          {{plant.name}} already has all the available pots 🥳
+        </p>
+      {% endif %}
+    </div>
+  </section>
 </div>
 </section>
 </div>
