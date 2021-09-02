@@ -7,6 +7,7 @@
 
 {% block content %}
 
+<div class="container-lg py-3">
 <div class="page-header">
   <h1>Sign Up</h1>
 </div>
@@ -15,10 +16,11 @@
 {% endif %}
 <form action="" method="post" class="form-container" autocomplete="off">
   {% csrf_token %}
-  <table>
+  <table class="m-3 table">
     {{ form.as_table }}
   </table>
-  <button type="submit" class="btn submit">Submit!</button>
+  <button type="submit" class="btn btn-outline-success my-3">Submit!</button>
 </form>
+</div>
 
 {% endblock %}

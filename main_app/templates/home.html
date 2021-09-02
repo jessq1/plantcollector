@@ -2,25 +2,31 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/h.css' %}"/>
 {% endblock %}
 
 {% block content %}
-
-  <div class="img-fluid">
-    <img src="{% static 'images/bg.jpg' %}" alt="The Plant Collector Plant" class="img-fluid"/>
-  </div>
-  
+<div class="row">
   {% if not user.is_authenticated %}
-  <section>
+  <div class="h-80 col-md-4 position-relative">
+  <section class="position-absolute top-50 start-50 translate-middle">
+  <div class="d-flex m-auto">
   <form action="{% url 'home' %}" method="post" class="login">
-    <h1>Login</h1>
+    <h1 class="my-4">Login</h1>
     {% csrf_token %}
     {{ form.as_p }}
     <input type="hidden" name="next" value="{{ next }}">
-    <button type="submit" class="btn submit">Login</button>
+    <button type="submit" class="btn btn-outline-success">Login</button>
   </form>
-</section>
+  </div>
+  </section>
+  </div>
 {% endif %}
+<div class="col-sm-auto col-md-8">
+  <div class="img-fluid position-relative">
+    <img src="{% static 'images/bg.jpg' %}" alt="The Plant Collector Plant" class="img-fluid"/>
+  </div>
+  </div>
+  </div>
 
 {% endblock %}
