@@ -74,7 +74,7 @@ class PotDetail(LoginRequiredMixin, DetailView):
 
 class PotUpdate(LoginRequiredMixin, UpdateView):
   model = Pot
-  fields = ['name', 'color']
+  fields = ['material', 'color']
 
 class PotDelete(LoginRequiredMixin, DeleteView):
   model = Pot

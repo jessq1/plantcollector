@@ -1,9 +1,8 @@
 .card{
-    width:20rem;
+    width:260px;
     align-items: center;
 }
 
 .card-img-top{
-    width:15rem;
+    width:230px;
 }
-

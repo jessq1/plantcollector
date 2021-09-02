@@ -21,6 +21,8 @@
 {% block content %}
 
 <div class="container-lg py-3">
+<div class="row">
+<div class="col">
 <section class="plant-container">
   <div class="plant-img">
   {% if plant.photo.url %}
@@ -43,10 +45,10 @@
     <p>Origin: {{ plant.origin }}</p>
     <p>{{ plant.description }}</p>
     <div class="plant-actions">
-      <a href="{% url 'plants_update' plant.id %}" class="btn btn-outline-secondary">Edit</a>
-      <a href="{% url 'plants_delete' plant.id %}" class="btn btn-outline-secondary">Delete</a>
+      <a href="{% url 'plants_update' plant.id %}" class="btn btn-outline-success">Edit</a>
+      <a href="{% url 'plants_delete' plant.id %}" class="btn btn-outline-danger">Delete</a>
     </div>
-    <h3>Change {{ plant.name }}'s photo</h3>
+    <h5 class='my-3'>Change {{ plant.name }}'s photo</h5>
     <p id="file-name"></p>
     <form 
       action="{% url 'add_photo' plant.id %}"
@@ -54,20 +56,22 @@
       method="POST"
     >
       {% csrf_token %}
-      <label class="btn secondary">
+      <label class="btn btn-outline-success">
         Choose photo
         <input type="file" name="photo-file" id="file-input">
       </label>
-      <button type="submit" class="btn submit">Upload Photo</button>
+      <button type="submit" class="btn btn-outline-success">Upload Photo</button>
     </form>
   </div>
+  </section>
+    </div>
 
-  <div class="water-pot-container">
+  <div class="col my-4">
   <section class="water">
-    <div class="subsection-title">
+    <div >
       <h2>Watering</h2>
     </div>
-    <h3>Water the Plant!</h3>
+    <h5 class="mt-6">Water the Plant!</h5>
     <form
       action="{% url 'add_water' plant.id %}"
       method="post" 
@@ -82,7 +86,7 @@
       {{ water_form.as_p }}
       <button type="submit" class="btn btn-outline-secondary">Water</button>
     </form>
-    <h3>Past Actions</h3>
+    <h5 class='my-3 mt-5'>Past Actions</h5>
     {% if plant.water_set.all.count %}
     <table>
       <thead>
@@ -101,12 +105,14 @@
       <p class="subsection-content">{{plant.name}} has never been watered 😟</p>
     {% endif %}
   </section>
+      </div>
 
-  <section class="pots">
+<div class="col my-4">
+  <section class="pots ">
     <div class="subsection-title">
       <h2>Pots</h2>
     </div>
-    <h3>{{ plant.name }}'s Pots</h3>
+    <h5>{{ plant.name }}'s Pots</h5>
     <div class="subsection-content">
       {% if plant.pots.count %}
         {% for pot in plant.pots.all %}
@@ -115,8 +121,8 @@
               class="color-block"
               style="background-color: {{ pot.color }}"
             ></div>
-            <a href="{% url 'pots_detail' pot.id %}">
-              <p>A {{ pot.color }} pot made in {{ pot.material }}</p>
+            <a  href="{% url 'pots_detail' pot.id %}">
+              <p class="btn btn-outline-secondary">A {{ pot.color }} pot made in {{ pot.material }}</p>
             </a>
           </div>
         {% endfor %}
@@ -124,7 +130,7 @@
         <p class="no-pots">{{plant.name}} doesn't have any pots 😞</p>
       {% endif %}
     </div>
-    <h3>Available Pots</h3>
+    <h5 class='my-3'>Available Pots</h5>
     <div class="subsection-content">
       {% if pots.count %}
         {% for pot in pots.all %}
@@ -133,12 +139,12 @@
               class="color-block"
               style="background-color: {{ pot.color }}"
             ></div>
-            <a href="{% url 'pots_detail' pot.id %}">
-              <p>A {{ pot.color }} pot made in {{ pot.material }}</p>
+            <a  href="{% url 'pots_detail' pot.id %}">
+              <p class="btn btn-outline-secondary">A {{ pot.color }} pot made in {{ pot.material }}</p>
             </a>
             <form action="{% url 'assoc_pot' plant.id pot.id %}" method="post">
               {% csrf_token %}
-              <button type="submit" class="btn submit">Give pot</button>
+              <button type="submit" class="btn btn-success mb-4">Give pot</button>
             </form>
           </div>
         {% endfor %}
@@ -149,8 +155,10 @@
       {% endif %}
     </div>
   </section>
+  </div>
 </div>
 </section>
+</div>
 </div>
 
 {% endblock %}

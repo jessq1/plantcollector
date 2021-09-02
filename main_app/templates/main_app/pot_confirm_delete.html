@@ -7,6 +7,7 @@
 
 {% block content %}
 
+<div class="container-lg py-3">
 <div class="page-header">
   <h1>Delete Pot?</h1>
   <img src="{% static 'images/Leaves/Paper_Birch.png' %}" class="img-wrapper" alt="plant">
@@ -17,11 +18,12 @@
   {% csrf_token %}
   <a 
     href="{% url 'pots_detail' pot.id %}" 
-    class="btn secondary"
+    class="btn btn-outline-secondary m-2"
   >
     Cancel
   </a>
-  <button type="submit" class="btn danger">Yes - Delete!</button>
+  <button type="submit" class="btn btn-outline-danger m-2">Yes - Delete!</button>
 </form>
+</div>
 
 {% endblock %}

@@ -10,15 +10,16 @@
 {% endblock %}
 
 {% block content %}
-  
+<div class="container-lg py-3"> 
 <div class="card" style="border-color: {{ pot.color }}">
   <div class="card-bg" style="background-color: {{ pot.color }}"></div>
   <div class="card-content">
-    <h2>{{ pot.name }}</h2>
+    <h2>{{ pot.material }}</h2>
     <p>A {{ pot.color }} pot</p>
   </div>
 </div>
-<a href="{% url 'pots_update' pot.id %}" class="btn warn">Edit</a>
-<a href="{% url 'pots_delete' pot.id %}" class="btn danger">Delete</a>
+<a href="{% url 'pots_update' pot.id %}" class="btn btn-outline-warning m-2">Edit</a>
+<a href="{% url 'pots_delete' pot.id %}" class="btn btn-outline-danger m-2">Delete</a>
+</div>
 
 {% endblock %}

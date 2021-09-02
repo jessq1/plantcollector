@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/pIndex.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/p-Index.css' %}"/>
 {% endblock %}
 
 {% block content %}
@@ -12,25 +12,29 @@
 </section>
 
 <section class="card-container">
+<div class="row">
+
   {% for plant in plants %}
-    <div class="card py-3">
+  <div class="col-md-4">
+    <div class="card py-3 mx-auto my-3">
     {% if plant.photo.url %}
               <img 
                 src="{{plant.photo.url}}" 
                 alt="A photo of {{plant.name}}"
                 class="card-img-top"
               >
-            {% else %}
+    {% else %}
         <img src="{% static 'images/Leaves/Paper_Birch.png' %}" class="card-img-top" alt="plant">
       {% endif %}
-        <div class="card-body">
+        <div class="card-body text-start">
         <h3 class="card-title">{{ plant.name }}</h3>
         <p>Year: {{ plant.age }}</p>
         <p>Origin: {{ plant.origin }}</p>
         <p class="card-text">{{ plant.description }}</p>
       </div>
-      <a class='btn btn-outline-secondary' href="{% url 'plants_detail' plant.id %}">Details
+      <a class='btn btn-outline-success' href="{% url 'plants_detail' plant.id %}">Details
       </a>
+      </div>
     </div>
   {% endfor %}
 </div>
