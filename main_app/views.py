@@ -3,6 +3,11 @@ from .models import Plant, Pot, Photo
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import WaterForm
 from django.views.generic import ListView, DetailView
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 import uuid
 import boto3
 
@@ -10,16 +15,18 @@ S3_BASE_URL = 'https://s3.us-east-1.amazonaws.com/'
 BUCKET = 'plant-collector'
 
 # Create your views here.
-def home(request):
-  return render(request, 'home.html')
+class Home(LoginView):
+  template_name = 'home.html'
 
 def about(request):
   return render(request, 'about.html')
 
+@login_required
 def plants_index(request):
     plants = Plant.objects.all()
     return render(request, 'plants/index.html', { 'plants': plants }) 
 
+@login_required
 def plants_detail(request, plant_id):
   plant = Plant.objects.get(id=plant_id)
   pots_plant_doesnt_have = Pot.objects.exclude(id__in = plant.pots.all().values_list('id'))
@@ -27,20 +34,25 @@ def plants_detail(request, plant_id):
   return render(request, 'plants/detail.html', { 
     'plant': plant, 'water_form': water_form, 'pots': pots_plant_doesnt_have })
 
-class PlantCreate(CreateView):
+class PlantCreate(LoginRequiredMixin, CreateView):
   model = Plant
   fields = ['name', 'origin', 'description', 'age']
   success_url = '/plants/'
 
-class PlantUpdate(UpdateView):
+  def form_valid(self, form):
+    form.instance.user = self.request.user 
+    return super().form_valid(form)
+
+class PlantUpdate(LoginRequiredMixin, UpdateView):
   model = Plant
   # Let's disallow the renaming of a plant by excluding the name field!
   fields = ['origin', 'description', 'age']
 
-class PlantDelete(DeleteView):
+class PlantDelete(LoginRequiredMixin, DeleteView):
   model = Plant
   success_url = '/plants/'
 
+@login_required
 def add_water(request, plant_id):
   form = WaterForm(request.POST)
   if form.is_valid():
@@ -50,29 +62,31 @@ def add_water(request, plant_id):
 
   return redirect('plants_detail', plant_id=plant_id)
 
-class PotCreate(CreateView):
+class PotCreate(LoginRequiredMixin, CreateView):
   model = Pot
   fields = '__all__'
 
-class PotList(ListView):
+class PotList(LoginRequiredMixin, ListView):
   model = Pot
 
-class PotDetail(DetailView):
+class PotDetail(LoginRequiredMixin, DetailView):
   model = Pot
 
-class PotUpdate(UpdateView):
+class PotUpdate(LoginRequiredMixin, UpdateView):
   model = Pot
   fields = ['name', 'color']
 
-class PotDelete(DeleteView):
+class PotDelete(LoginRequiredMixin, DeleteView):
   model = Pot
   success_url = '/pots/'
 
+@login_required
 def assoc_pot(request, plant_id, pot_id):
   # Note that you can pass a toy's id instead of the whole object
   Plant.objects.get(id=plant_id).pots.add(pot_id)
   return redirect('plants_detail', plant_id=plant_id)
 
+@login_required
 def add_photo(request, plant_id):
   photo_file = request.FILES.get('photo-file', None)
   if photo_file:
@@ -89,3 +103,17 @@ def add_photo(request, plant_id):
     except Exception as err:
       print('An error occurred uploading file to S3: %s' % err)
   return redirect('plants_detail', plant_id=plant_id)
+
+def signup(request):
+  error_message = ''
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      user = form.save()
+      login(request, user)
+      return redirect('plants_index')
+    else:
+      error_message = 'Invalid sign up - try again'
+  form = UserCreationForm()
+  context = {'form': form, 'error_message': error_message}
+  return render(request, 'signup.html', context)

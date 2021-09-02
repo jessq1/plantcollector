@@ -35,11 +35,18 @@
       </button>
       <div class="collapse navbar-collapse" id="navmenu">
         <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
           <li><a class='nav-link' href="{% url 'plants_index' %}">All Plants</a></li>
           <li><a class='nav-link' href="{% url 'pots_index' %}">All Pots</a></li>
           <li><a class='nav-link' href="{% url 'plants_create' %}">Add a Plant</a></li>
           <li><a class='nav-link' href="{% url 'pots_create' %}">Add a Pot</a></li>
           <li><a class='nav-link' href="{% url 'about' %}">About</a></li>
+          <li><a class='nav-link' href="{% url 'logout' %}">Log out</a></li>
+        {% else %}
+          <li><a class='nav-link' href="{% url 'about' %}">About</a></li>
+          <li><a class='nav-link' href="{% url 'home' %}">Login</a></li>
+          <li><a class='nav-link' href="{% url 'signup' %}">Sign Up</a></li>
+        {% endif %}
       </ul>
       </div>
     </nav>
