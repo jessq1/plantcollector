@@ -23,11 +23,19 @@
 <div class="container-lg py-3">
 <section class="plant-container">
   <div class="plant-img">
+  {% if plant.photo.url %}
+      <img 
+        src="{{plant.photo.url}}" 
+        alt="A photo of {{plant.name}}"
+        class="plant-img"
+      >
+    {% else %}
     <img 
       class="plant-img"
       src="{% static 'images/Leaves/Paper_Birch.png' %}" 
       alt="A skater boy plant"
     >
+    {% endif %}
   </div>
   <div class="plant-details">
     <h1>{{ plant.name }}</h1>
@@ -38,6 +46,20 @@
       <a href="{% url 'plants_update' plant.id %}" class="btn btn-outline-secondary">Edit</a>
       <a href="{% url 'plants_delete' plant.id %}" class="btn btn-outline-secondary">Delete</a>
     </div>
+    <h3>Change {{ plant.name }}'s photo</h3>
+    <p id="file-name"></p>
+    <form 
+      action="{% url 'add_photo' plant.id %}"
+      enctype="multipart/form-data"
+      method="POST"
+    >
+      {% csrf_token %}
+      <label class="btn secondary">
+        Choose photo
+        <input type="file" name="photo-file" id="file-input">
+      </label>
+      <button type="submit" class="btn submit">Upload Photo</button>
+    </form>
   </div>
 
   <div class="water-pot-container">

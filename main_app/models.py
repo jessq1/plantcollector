@@ -13,7 +13,7 @@ class Pot(models.Model):
   color = models.CharField(max_length=20)
 
   def __str__(self):
-    return self.name
+    return self.material
 
   def get_absolute_url(self):
     return reverse('pots_detail', kwargs={'pk': self.id})
@@ -44,3 +44,10 @@ class Water(models.Model):
     return f"{self.get_time_display()} on {self.date}"
   class Meta:
     ordering = ['-date']
+
+class Photo(models.Model):
+  url = models.CharField(max_length=250)
+  plant = models.OneToOneField(Plant, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return f"Photo for plant_id: {self.plant_id} @{self.url}"

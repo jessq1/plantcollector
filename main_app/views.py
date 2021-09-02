@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
-from .models import Plant, Pot
+from .models import Plant, Pot, Photo
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import WaterForm
 from django.views.generic import ListView, DetailView
+import uuid
+import boto3
 
-
+S3_BASE_URL = 'https://s3.us-east-1.amazonaws.com/'
+BUCKET = 'plant-collector'
 
 # Create your views here.
 def home(request):
@@ -68,4 +71,21 @@ class PotDelete(DeleteView):
 def assoc_pot(request, plant_id, pot_id):
   # Note that you can pass a toy's id instead of the whole object
   Plant.objects.get(id=plant_id).pots.add(pot_id)
+  return redirect('plants_detail', plant_id=plant_id)
+
+def add_photo(request, plant_id):
+  photo_file = request.FILES.get('photo-file', None)
+  if photo_file:
+    s3 = boto3.client('s3')
+    key = uuid.uuid4().hex + photo_file.name[photo_file.name.rfind('.'):]
+    try:
+      s3.upload_fileobj(photo_file, BUCKET, key)
+      url = f"{S3_BASE_URL}{BUCKET}/{key}"
+      photo = Photo(url=url, plant_id=plant_id)
+      plant_photo = Photo.objects.filter(plant_id=plant_id)
+      if plant_photo.first():
+        plant_photo.first().delete()
+      photo.save()
+    except Exception as err:
+      print('An error occurred uploading file to S3: %s' % err)
   return redirect('plants_detail', plant_id=plant_id)

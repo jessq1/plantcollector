@@ -14,7 +14,15 @@
 <section class="card-container">
   {% for plant in plants %}
     <div class="card py-3">
+    {% if plant.photo.url %}
+              <img 
+                src="{{plant.photo.url}}" 
+                alt="A photo of {{plant.name}}"
+                class="card-img-top"
+              >
+            {% else %}
         <img src="{% static 'images/Leaves/Paper_Birch.png' %}" class="card-img-top" alt="plant">
+      {% endif %}
         <div class="card-body">
         <h3 class="card-title">{{ plant.name }}</h3>
         <p>Year: {{ plant.age }}</p>
